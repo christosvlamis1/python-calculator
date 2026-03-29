@@ -9,8 +9,7 @@ options = ["1","2","3","4"]
 
 #checks if the users_input is inside options,returns the right input
 def in_options():       
-    users_input = ""
-    while users_input not in options:
+    while True:
         users_input = input("\nWhat is your Choice :")
         if users_input in options:
             return users_input
@@ -19,14 +18,16 @@ def in_options():
 
 #Y/N to kill the loop and exit the app
 def get_yes_no():                               
-    running_input = input("Continue (y/n):").lower()
-    while running_input not in ["y","n"]:
-        print("Invalid input. Please enter 'y' or 'n'.")
+    while True:
         running_input = input("Continue? (y/n):").lower()
-    if running_input == "y":
-        return True
-    else:
-        return False
+        if running_input == "y":
+            return True
+        elif running_input == "n":
+            return False
+
+        print("Invalid input. Please enter 'y' or 'n'.")
+
+#prints the result
 def showresult(result):
     print("\nresult =",result,"\n")
 
