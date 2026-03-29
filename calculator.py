@@ -80,9 +80,13 @@ while running:
         result = op.multiplication(num1,num2)
     elif users_input == "4":
         #fixes the ZeroDivisionError
-        while num2 == 0:
+        while True:
             num2 =get_number("\nInput any number but 0 :")
-        result = op.division(num1,num2)
+            try:
+                result = op.division(num1,num2)
+                break
+            except ZeroDivisionError:
+                print("You cannot divine by zero. Try again.")
 
     #making sure if its an int it doesn't print as float
     if isinstance(result, float) and result.is_integer():
