@@ -5,7 +5,13 @@ import os
 width = os.get_terminal_size().columns 
 
 #current options upgradeable to a dict when i add more
-options = ["1","2","3","4"]
+options = {
+    "1": ("Addition", op.addition),
+    "2": ("Subtraction", op.subtraction),
+    "3": ("Multiplication", op.multiplication),
+    "4": ("Division", op.division)
+}
+
 
 #checks if the users_input is inside options,returns the right input
 def in_options():       
@@ -43,51 +49,39 @@ def get_number(prompt):
 
 #just a menu print function
 def menu():
-    print("\n1.Addition\n2.Subtraction\n3.Multiplication\n4.Division")
+    for key,value in options.items():
+        print(key+"."+value[0])
 
 
 #main code
 print("CALCULATOR".center(width))
-print("\nChoose 1,2,3,4.... based on what mathematical operation you wish to be used")
+print("\nChoose 1,2,3,4.... based on what mathematical operation you wish to be used\n")
 
 #main while. Handles the give and take
 running = True
 while running:
     menu() #print menu
     users_input = in_options() #gets the input,validating its on the menu
-    
-    #prints the name of the operation the user choose
-    if users_input == "1":          
-        print("\n"+"Addition:".center(width))
-    elif users_input == "2":
-        print("\n"+"Subtraction:".center(width))
-    elif users_input == "3":
-        print("\n"+"Multiplication:".center(width))
-    elif users_input == "4":
-        print("\n"+"Division:".center(width))
-    
+    name , func = options[users_input]
+    result = None
     #getting our numbers
     num1 = get_number("\nFirst number :")
     num2 = get_number("\nSecond number :")
     
-    #deciding what operation to use
-    result = None
-    if users_input == "1":       
-        result = op.addition(num1,num2)
-    elif users_input == "2":
-        result = op.subtraction(num1,num2)
-    elif users_input == "3":
-        result = op.multiplication(num1,num2)
-    elif users_input == "4":
-        #fixes the ZeroDivisionError
-        while True:
-            num2 =get_number("\nInput any number but 0 :")
-            try:
-                result = op.division(num1,num2)
-                break
-            except ZeroDivisionError:
-                print("You cannot divine by zero. Try again.")
+    #prints the name of the operation the user choose
+    print("\n",name.center(width))
 
+    #handling errors like ZerroDivisionError
+    while True:
+        try:
+            result = func(num1, num2)
+            break
+
+        #i'm retaking only num2 for now ill change it with more operations than can cause more problems
+        except Exception as e:
+            print("Invalid input caused :",e,"try again :")
+            num2 =get_number("\nInput any number but 0 :")
+   
     #making sure if its an int it doesn't print as float
     if isinstance(result, float) and result.is_integer():
         result = int(result)
