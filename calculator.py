@@ -8,15 +8,29 @@ width = os.get_terminal_size().columns
 def show_history():
     if not history:
         os.system("clear")
+        print("------ HISTORY ------\n".center(width))
         print("\nHistory is empty\n")
         input("Press Enter to return to menu...\n")
         os.system("clear")
     else:
         os.system("clear")
+        print("------ HISTORY ------\n".center(width))
         for index, item in enumerate(history):
-            print("\n"+str(index+1)+".  "+item)
+            print(str(index+1)+".  "+item)
         input("Press Enter to return to menu...\n")
         os.system("clear")
+
+def save_history():
+    if not history:
+        print("\nHistory is empty. SAVE FAILED\n")
+    else:
+        os.makedirs("data", exist_ok=True)
+        with open("data/history.txt","w") as save:
+            for i in history:
+                save.write(i+"\n")
+        print("\nHistory saved to data/History.txt\n")
+        input("Press Enter to return...")
+
 
 #checks if the users_input is inside options,returns the right input
 def in_options():       
@@ -63,7 +77,8 @@ options = {
     "2": ("Subtraction", op.subtraction, "-"),
     "3": ("Multiplication", op.multiplication, "*"),
     "4": ("Division", op.division, "/"),
-    "h": ("History", show_history, None)
+    "h": ("History", show_history, None),
+    "s": ("Save History", save_history,None)
 }
 
 history = []
@@ -72,7 +87,6 @@ history = []
 #main code
 print("CALCULATOR".center(width))
 print("\nChoose 1,2,3,4.... based on what mathematical operation you wish to be used\n")
-print("Press H to view history")
 
 #main while. Handles the give and take
 running = True
