@@ -1,6 +1,6 @@
 # PYTHON CALCULATOR
 
-A simple terminal-based calculator buil-in Python.
+A simple terminal-based calculator build-in Python.
 
 ----------
 
